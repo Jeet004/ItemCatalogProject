@@ -8,7 +8,7 @@ export const items: Item[] = [
     price: 799,
     category: "Electronics",
     createdAt: new Date().toISOString(),
-    imageUrl: "/images/mouse.jpg"
+    imageUrl: "/Mouse.jpg"
   },
   {
     id: "2",
@@ -16,7 +16,8 @@ export const items: Item[] = [
     description: "RGB mechanical keyboard with blue switches",
     price: 2499,
     category: "Electronics",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    imageUrl: "/keyboard.jpg"
   },
   {
     id: "3",
@@ -24,7 +25,8 @@ export const items: Item[] = [
     description: "A5 ruled notebook for daily notes",
     price: 199,
     category: "Stationery",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    imageUrl: "/Notebook.jpg"
   },
   {
     id: "4",
@@ -32,7 +34,8 @@ export const items: Item[] = [
     description: "Premium gel pen set",
     price: 299,
     category: "Stationery",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    imageUrl: "/PenSet.jpg"
   },
   {
     id: "5",
@@ -40,7 +43,8 @@ export const items: Item[] = [
     description: "1L stainless steel bottle",
     price: 599,
     category: "Lifestyle",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    imageUrl: "/WaterBottle.jpg"
   },
   {
     id: "6",
@@ -48,7 +52,8 @@ export const items: Item[] = [
     description: "Laptop backpack with multiple compartments",
     price: 1999,
     category: "Lifestyle",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    imageUrl: "/LaptopBackpack.jpg"
   },
   {
     id: "7",
@@ -56,7 +61,8 @@ export const items: Item[] = [
     description: "Over-ear wired headphones",
     price: 1499,
     category: "Electronics",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    imageUrl: "/Headphones.jpg"
   },
   {
     id: "8",
@@ -64,6 +70,7 @@ export const items: Item[] = [
     description: "LED desk lamp with adjustable brightness",
     price: 999,
     category: "Home",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    imageUrl: "/DeskLamp.jpg"
   }
 ];
