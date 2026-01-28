@@ -34,7 +34,7 @@ export default function ItemCard({ item }: ItemCardProps) {
         </h3>
 
         <span className="inline-block text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
-          {item.category}
+          ₹{item.price}
         </span>
 
         <p className="text-sm text-gray-600 line-clamp-2">{item.description}</p>
