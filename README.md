@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Clone the repository
+git clone https://github.com/Jeet004/ItemCatalogProject.git
+# Navigate to project directory
+cd week3testmain
 
-## Getting Started
+# Install dependencies
+npm install
 
-First, run the development server:
+# Build the project
+npm run build
 
-```bash
+# Start the project
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Implemented Features:
+View Items Page:
+1) Fetching All items from data.ts and loading on UI
+2) Responsive UI
+3) Can navigate to items details and editing page
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create Items page:
+1) New Item with customized detail and optional image can be added(not able to implement properly)
+2) Proper form validation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Edit Items Page
+1) Old Existing items's details can be added with only the images portion not being able to edited and implemented.
+2) Form Details Validation
 
-## Learn More
+Specific Item view page:
+1) Specific item's data can be seen.
 
-To learn more about Next.js, take a look at the following resources:
+# Git History:
+ 481cf69 HEAD@{0}: rebase (finish): returning to refs/heads/itemcatalog
+481cf69 HEAD@{1}: commit: Updated Routing and SEO
+3f01cc5 HEAD@{2}: pull --rebase origin itemcatalog (start): checkout 3f01cc5947b584b82f6274fd9276ab40fb9df6c4
+14456be HEAD@{3}: commit (amend): Commit through amending
+3f01cc5 HEAD@{4}: commit: feat: Create,edit,view details done
+400637f HEAD@{5}: commit: feat: main page UI ready
+fd62c55 HEAD@{6}: checkout: moving from main to itemcatalog
+fd62c55 HEAD@{7}: commit: Initial Commit
+a123637 HEAD@{8}: commit (initial): Initial commit from Create Next App
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
