@@ -8,6 +8,7 @@ interface ItemDetailPageProps {
   }>;
 }
 
+<<<<<<< HEAD
 async function getItem(id: string): Promise<Item | null> {
   // For server components, we need to use the full URL
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
@@ -24,7 +25,24 @@ async function getItem(id: string): Promise<Item | null> {
     console.error('Error fetching item:', error);
     return null;
   }
+=======
+async function getItem(id: string): Promise<Item> {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+  const res = await fetch(
+    `${baseUrl}/api/items?id=${id}`,
+    { cache: "no-store" }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch item");
+  }
+
+  return res.json();
+>>>>>>> 14456be (Commit through amending)
 }
+
 
 export default async function ItemDetailPage({
   params
@@ -32,6 +50,7 @@ export default async function ItemDetailPage({
   const resolvedParams = await params;
   const item = await getItem(resolvedParams.id);
 
+<<<<<<< HEAD
   if (!item) {
     return (
       <main className="max-w-4xl mx-auto px-6 py-10">
@@ -47,6 +66,23 @@ export default async function ItemDetailPage({
       </main>
     );
   }
+=======
+  // if (!item) {
+  //   return (
+  //     <main className="max-w-4xl mx-auto px-6 py-10">
+  //       <div className="text-center py-12">
+  //         <p className="text-red-600 text-lg font-medium mb-4">Item not found</p>
+  //         <Link 
+  //           href="/" 
+  //           className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+  //         >
+  //           Back to Home
+  //         </Link>
+  //       </div>
+  //     </main>
+  //   );
+  // }
+>>>>>>> 14456be (Commit through amending)
 
   return (
     <main className="max-w-4xl mx-auto px-6 py-10">
