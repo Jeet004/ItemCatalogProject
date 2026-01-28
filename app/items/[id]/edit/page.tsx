@@ -37,21 +37,6 @@ export default function EditItemPage() {
       throw new Error("Failed to load item");
     }
 
-<<<<<<< HEAD
-        setForm({
-          title: item.title,
-          description: item.description,
-          price: item.price.toString(),
-          category: item.category,
-          imageUrl: item.imageUrl || ""
-        });
-      } catch {
-        setError("Failed to load item");
-      } finally {
-        setLoading(false);
-      }
-    };
-=======
     const item: Item = await res.json();
 
     setForm({
@@ -65,7 +50,6 @@ export default function EditItemPage() {
 
   fetchItem();
 }, [id]);
->>>>>>> 14456be (Commit through amending)
 
 
   const handleChange = (
@@ -120,19 +104,11 @@ export default function EditItemPage() {
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Edit Item</h1>
 
       {/* Error Message */}
-<<<<<<< HEAD
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-600">{error}</p>
-        </div>
-      )}
-=======
       {/* {error && (
         <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
           <p className="text-red-600">{error}</p>
         </div>
       )} */}
->>>>>>> 14456be (Commit through amending)
 
       <form onSubmit={handleSubmit}>
         <div className="grid md:grid-cols-2 gap-8">
