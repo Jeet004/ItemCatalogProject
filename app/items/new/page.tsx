@@ -1,19 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Item } from "@/lib/types";
 
-export default function EditItemPage() {
+export default function CreateItemPage() {
   const router = useRouter();
-  const params = useParams();
-  const id = Array.isArray(params.id) ? params.id[0] : params.id;
-
-  if (!id) {
-    return <p className="px-6 py-10">Invalid item ID</p>;
-  }
 
   const [form, setForm] = useState({
     title: "",
@@ -23,87 +16,85 @@ export default function EditItemPage() {
     imageUrl: ""
   });
 
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showImageInput, setShowImageInput] = useState(false);
-
-  useEffect(() => {
-    if (!id) return;
-
-    const fetchItem = async () => {
-      try {
-        const res = await fetch(`/api/items?id=${id}`);
-        if (!res.ok) throw new Error();
-
-        const item: Item = await res.json();
-
-        setForm({
-          title: item.title,
-          description: item.description,
-          price: item.price.toString(),
-          category: item.category,
-          imageUrl: item.imageUrl || ""
-        });
-      } catch {
-        setError("Failed to load item");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchItem();
-  }, [id]);
+  const [isCreating, setIsCreating] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    
+    if (error) setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.title || !form.description || !form.price || !form.category) {
-      setError("All fields are required");
+    // Validation
+    if (!form.title.trim()) {
+      setError("Title is required");
       return;
     }
 
+    if (!form.description.trim()) {
+      setError("Description is required");
+      return;
+    }
+
+    if (!form.price || Number(form.price) <= 0) {
+      setError("Price must be greater than 0");
+      return;
+    }
+
+    if (!form.category) {
+      setError("Please select a category");
+      return;
+    }
+
+    setIsCreating(true);
+    setError("");
+
     try {
       const res = await fetch("/api/items", {
-        method: "PATCH",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id,
-          title: form.title,
-          description: form.description,
+          title: form.title.trim(),
+          description: form.description.trim(),
           price: Number(form.price),
           category: form.category,
-          imageUrl: form.imageUrl
+          imageUrl: form.imageUrl || undefined
         })
       });
 
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed to create item");
+      }
 
-      router.push(`/items/${id}`);
-    } catch {
-      setError("Failed to update item");
+      const newItem = await res.json();
+      
+      // Navigate to the newly created item's detail page
+      router.push(`/items/${newItem.id}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create item");
+      setIsCreating(false);
     }
   };
-
-  if (loading) return <p className="px-6 py-10">Loading...</p>;
 
   return (
     <main className="max-w-4xl mx-auto px-6 py-10">
       {/* Back Link */}
       <Link 
-        href={`/items/${id}`}
+        href="/"
         className="inline-block text-blue-600 hover:text-blue-800 mb-6"
       >
-        ← Back to Item
+        ← Back to Home
       </Link>
 
       {/* Page Title */}
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Edit Item</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">Create New Item</h1>
 
       {/* Error Message */}
       {error && (
@@ -117,7 +108,7 @@ export default function EditItemPage() {
           {/* Left Column - Image */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">
-              Item Image
+              Item Image (Optional)
             </label>
 
             {/* Image Preview */}
@@ -127,7 +118,7 @@ export default function EditItemPage() {
                   <div className="relative h-64 flex items-center justify-center">
                     <Image
                       src={form.imageUrl}
-                      alt={form.title || "Item image"}
+                      alt="Item preview"
                       width={300}
                       height={200}
                       className="object-contain max-h-full"
@@ -144,7 +135,7 @@ export default function EditItemPage() {
               </div>
             ) : !showImageInput ? (
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50">
-                <p className="text-gray-500 mb-3">No image set</p>
+                <p className="text-gray-500 mb-3">No image added</p>
                 <button
                   type="button"
                   onClick={() => setShowImageInput(true)}
@@ -213,6 +204,7 @@ export default function EditItemPage() {
                 onChange={handleChange}
                 placeholder="Enter item title"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                disabled={isCreating}
                 required
               />
             </div>
@@ -230,6 +222,7 @@ export default function EditItemPage() {
                 placeholder="Describe your item"
                 rows={4}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                disabled={isCreating}
                 required
               />
             </div>
@@ -249,6 +242,7 @@ export default function EditItemPage() {
                 onChange={handleChange}
                 placeholder="0.00"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                disabled={isCreating}
                 required
               />
             </div>
@@ -264,6 +258,7 @@ export default function EditItemPage() {
                 value={form.category}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                disabled={isCreating}
                 required
               >
                 <option value="">Select Category</option>
@@ -278,16 +273,18 @@ export default function EditItemPage() {
             <div className="flex gap-3 pt-4">
               <button
                 type="button"
-                onClick={() => router.push(`/`)}
+                onClick={() => router.push("/")}
                 className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                disabled={isCreating}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isCreating}
               >
-                Save Changes
+                {isCreating ? "Creating..." : "Create Item"}
               </button>
             </div>
           </div>
